@@ -1,0 +1,52 @@
+{
+  "logs": [
+    {
+      "id": 1,
+      "message": "VPN issue fixed",
+      "attention": false,
+      "tech": "Sara Wilson",
+      "date": "2019-07-27T23:08:05.994Z"
+    },
+    {
+      "message": "Laptop need rebuilding",
+      "attention": true,
+      "tech": "Sam Smith",
+      "date": "2019-07-27T23:20:22.096Z",
+      "id": 2
+    },
+    {
+      "message": "Issue with network",
+      "attention": true,
+      "tech": "John Doe",
+      "date": "2019-07-27T23:20:44.045Z",
+      "id": 3
+    }
+  ],
+  "techs": [
+    {
+      "id": 1,
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    {
+      "id": 2,
+      "firstName": "Sam",
+      "lastName": "Smith"
+    },
+    {
+      "id": 3,
+      "firstName": "Sarah",
+      "lastName": "Wilson"
+    },
+    {
+      "firstName": "James T",
+      "lastName": "Kirk",
+      "id": 5
+    },
+    {
+      "firstName": "john",
+      "lastName": "wick",
+      "id": 7
+    }
+  ]
+}
