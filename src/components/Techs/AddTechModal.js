@@ -1,22 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import nextId from 'react-id-generator';
 import { addTech } from '../../actions/techActions';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const AddTechModal = ({addTech}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState(false);
-
     const onSubmit = () => {
+        const newId = nextId();
         if (firstName === '' || lastName === '') {
             M.toast({ html: 'Please enter the Technicians first name and last name' })
         } else {
             addTech({
                 firstName,
-                lastName
+                lastName,
+                id: newId
             })
-
             M.toast({ html: `${firstName} ${lastName} has been added as a technician` })
             //Clear Fields
             setFirstName('');

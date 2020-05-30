@@ -1,3 +1,4 @@
+import { database } from '../firebase';
 import { GET_TECHS, ADD_TECH, DELETE_TECH, SET_LOADING, TECHS_ERROR } from './Types';
 
 //Get techs from server
@@ -5,17 +6,22 @@ export const getTechs = () => async dispatch => {
     try {
         setLoading();
 
-        const res = await fetch('./techs');
-        const data = await res.json();
+         const techsRef = await database.collection('techs').get();
+         const techsArray = [];
+        techsRef.forEach((doc) => {
+           techsArray.push({
+             data: doc.data(),
+           });
+         });
 
         dispatch({
             type: GET_TECHS,
-            payload: data
+            payload: techsArray
         })
     } catch (err) {
         dispatch({
             type: TECHS_ERROR,
-            payload: err.response.statusText,
+            payload: err.message,
         })
     }
     
@@ -26,23 +32,23 @@ export const addTech = (tech) => async dispatch => {
     try {
         setLoading();
 
-        const res = await fetch('./techs', {
-            method: 'POST',
-            body: JSON.stringify(tech),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        const setTechs = await database.collection('techs').add(tech);
+        const techs = await setTechs.get();
+        const techsArray = [];
+        techs.forEach((doc) => {
+            console.log(doc.data())
+          techsArray.push({
+            data: doc.data(),
+          });
         });
-        const data = await res.json();
-
         dispatch({
             type: ADD_TECH,
-            payload: data
+            payload: techsArray
         })
     } catch (err) {
         dispatch({
             type: TECHS_ERROR,
-            payload: err.response.statusText,
+            payload: err.message,
         })
     }
     
@@ -52,10 +58,18 @@ export const addTech = (tech) => async dispatch => {
 export const deleteTech = (id) => async dispatch => {
     try {
         setLoading();
-
-        await fetch(`./techs/${id}`, {
-            method: 'DELETE'
+        let deleteId;
+        const deleteTechs = await database.collection('techs').get();
+        deleteTechs.forEach((doc) => {
+            const data = doc.data();
+            console.log(data.id)
+          if (data.id === id) {
+            deleteId = doc.id;
+          }
         });
+        
+        console.log(deleteId);
+        database.collection('techs').doc(deleteId).delete();
 
         dispatch({
             type: DELETE_TECH,
@@ -64,7 +78,7 @@ export const deleteTech = (id) => async dispatch => {
     } catch (err) {
         dispatch({
             type: TECHS_ERROR,
-            payload: err.response.statusText,
+            payload: err.message,
         })
     }
     

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TechSelectOptions from '../Techs/TechSelectOptions';
-import { addLog} from '../../actions/logActions'
+import { addLog } from '../../actions/logActions'
+import nextId from 'react-id-generator';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const AddLogModal = ({addLog}) => {
@@ -11,6 +12,7 @@ const AddLogModal = ({addLog}) => {
     const [tech, setTech] = useState('');
 
     const onSubmit = () => {
+        const newId = nextId();
         if (message === '' || tech === '') {
             M.toast({ html: 'Please enter a message and assign a technician' })
         } else {
@@ -18,7 +20,8 @@ const AddLogModal = ({addLog}) => {
                 message,
                 attention,
                 tech,
-                date: new Date()
+                date: new Date(),
+                id: newId
             }
 
             addLog(newLog)
